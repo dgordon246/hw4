@@ -18,5 +18,18 @@
     <input type="date" name="occurred_on" id="occurred_on_input">
   </p>
 
+  <div class="row">
+    <% for entry in @entries %>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%= entry["title"] %></h5>
+            <p class="card-text"><%= entry["body"] %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
   <button>Save</button>
 </form>
