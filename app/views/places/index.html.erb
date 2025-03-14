@@ -1,11 +1,10 @@
 <h1>Places</h1>
 
-<ul>
-  <% for place in @places %>
-    <li><a href="/places/<%= place["id"] %>"><%= place["name"] %></a></li>
-  <% end %>
-</ul>
-
-<p>
-  <a href="/places/new">New place</a>
-</p>
+<% @places.each do |place| %>
+  <div class="card mb-3">
+    <div class="card-body">
+      <p><strong>Added by: <%= place.user.email %></strong></p> <!-- Show user -->
+      <p><%= place.name %></p>
+    </div>
+  </div>
+<% end %>

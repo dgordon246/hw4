@@ -1,13 +1,11 @@
 class EntriesController < ApplicationController
   before_action :authenticate_user
 
-  def create
-    if params[:entry].nil?
-      flash["notice"] = "Something went wrong. Entry data is missing."
-      redirect_to "/entries"
-      return
-    end
+  def index
+    @entries = Entry.all.order(created_at: :desc) || []  # Ensure it's never nil
+  end
 
+  def create
     @entry = Entry.new(entry_params)
     @entry.user_id = session["user_id"]
 
