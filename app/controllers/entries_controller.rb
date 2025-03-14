@@ -1,10 +1,6 @@
 class EntriesController < ApplicationController
   before_action :authenticate_user
 
-  def index
-    @entries = Entry.where(user_id: session["user_id"]).order(created_at: :desc) || []
-  end
-
   def new
     @place = Place.find_by(id: params[:place_id], user_id: session["user_id"])
     if @place.nil?
@@ -16,8 +12,7 @@ class EntriesController < ApplicationController
   end
 
   def create
-    @place = Place.find_by(id: session["place_id"], user_id: session["user_id"])
-    
+    @place = Place.find_by(id: params[:place_id], user_id: session["user_id"])
     if @place.nil?
       flash["notice"] = "You must select a place first."
       redirect_to "/places"
@@ -29,7 +24,6 @@ class EntriesController < ApplicationController
     @entry.place_id = @place.id
 
     if @entry.save
-      session.delete("place_id")
       flash["notice"] = "Entry created!"
       redirect_to place_path(@entry.place)
     else

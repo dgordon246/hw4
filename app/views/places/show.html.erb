@@ -1,3 +1,24 @@
 <h1><%= @place.name %></h1>
 
-<p><%= link_to "New Post", new_entry_path(place_id: @place.id), class: "btn btn-primary" %></p> <!-- ✅ Pass place_id -->
+<p><%= link_to "New Post", new_place_entry_path(@place), { class: "btn btn-primary" } %></p>
+
+<div class="row">
+  <% if @entries.length > 0 %>
+    <% @entries.each do |entry| %>
+      <div class="col-md-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h3><%= entry.title %></h3>
+            <p><%= entry.occurred_on %></p>
+            <% if entry.uploaded_image.attached? %>
+              <%= image_tag entry.uploaded_image, { class: "img-fluid" } %>
+            <% end %>
+            <p><%= entry.description %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No entries yet for this place.</p>
+  <% end %>
+</div>

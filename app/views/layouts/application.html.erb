@@ -37,7 +37,9 @@
             <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
           <% else %>
             <li class="nav-text">Logged in as: <%= @user.email %></li>
-            <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+            <li class="nav-item">
+              <%= button_to "Logout", "/logout", { method: :delete, class: "btn btn-link nav-link" } %>
+            </li>
           <% end %>
         </ul>
       </div>

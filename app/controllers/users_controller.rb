@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     if @user.save
       session["user_id"] = @user["id"]
       flash["notice"] = "Account created!"
-      redirect_to "/entries"
+      redirect_to "/places"
     else
       flash["notice"] = "Sign-up failed."
       redirect_to "/users/new"
