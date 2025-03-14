@@ -1,26 +1,15 @@
 <h1>Entries</h1>
 
-<%= form_with url: "/entries", local: true, multipart: true do |form| %>
+<%= form_with model: Entry.new, url: "/entries", local: true, multipart: true do |form| %>
   <div class="mb-3">
     <%= form.label :body, "Write something:" %>
     <%= form.text_area :body, class: "form-control" %>
   </div>
+
   <div class="mb-3">
     <%= form.label :uploaded_image, "Upload an image:" %>
     <%= form.file_field :uploaded_image, class: "form-control" %>
   </div>
-  <%= form.submit "Post", class: "btn btn-primary" %>
-<% end %>
 
-<% @entries.each do |entry| %>
-  <div class="card mb-3">
-    <div class="card-body">
-      <p><strong><%= entry.user.email %>:</strong></p>
-      <p><%= entry.body %></p>
-      <% if entry.uploaded_image.attached? %>
-        <%= image_tag entry.uploaded_image, class: "img-fluid" %>
-      <% end %>
-      <p class="text-muted"><%= entry.created_at.strftime("%b %d, %Y %l:%M %p") %></p>
-    </div>
-  </div>
+  <%= form.submit "Post", class: "btn btn-primary" %>
 <% end %>

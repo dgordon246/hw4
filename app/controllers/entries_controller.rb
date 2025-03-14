@@ -2,6 +2,12 @@ class EntriesController < ApplicationController
   before_action :authenticate_user
 
   def create
+    if params[:entry].nil?
+      flash["notice"] = "Something went wrong. Entry data is missing."
+      redirect_to "/entries"
+      return
+    end
+
     @entry = Entry.new(entry_params)
     @entry.user_id = session["user_id"]
 
