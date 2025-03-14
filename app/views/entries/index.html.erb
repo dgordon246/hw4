@@ -1,10 +1,10 @@
 <h1>Entries</h1>
 
-<% if @entries.any? %> <!-- Ensure @entries is not empty -->
+<% if @entries.any? %> <!-- Prevent errors if no entries exist -->
   <% @entries.each do |entry| %>
     <div class="card mb-3">
       <div class="card-body">
-        <p><strong><%= entry.user.email %>:</strong></p>
+        <p><strong><%= entry.user.email %></strong> at <%= entry.place.name %></p> <!-- Show user and place -->
         <p><%= entry.body %></p>
         <% if entry.uploaded_image.attached? %>
           <%= image_tag entry.uploaded_image, class: "img-fluid" %>
