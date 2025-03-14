@@ -2,22 +2,16 @@
 
 <p><%= link_to "Create New Entry", "/entries/new", class: "btn btn-primary" %></p>
 
-<% if @entries.present? && @entries.any? %> <!-- Prevent nil errors -->
+<% if @entries.any? %>
   <% @entries.each do |entry| %>
     <div class="card mb-3">
       <div class="card-body">
-        <p><strong><%= entry.user.email %></strong> 
-          <% if entry.place.present? %>
-            at <%= entry.place.name %>
-          <% else %>
-            (No location)
-          <% end %>
-        </p>
-        <p><%= entry.body %></p>
+        <p><strong><%= entry.title %></strong></p>
+        <p><%= entry.description %></p>
+        <p>Occurred on: <%= entry.occurred_on %></p>
         <% if entry.uploaded_image.attached? %>
           <%= image_tag entry.uploaded_image, class: "img-fluid" %>
         <% end %>
-        <p class="text-muted"><%= entry.created_at.strftime("%b %d, %Y %l:%M %p") %></p>
       </div>
     </div>
   <% end %>

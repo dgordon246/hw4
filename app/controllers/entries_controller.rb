@@ -16,7 +16,6 @@ class EntriesController < ApplicationController
       return
     end
 
-    # Find or create the place based on the inputted name
     place_name = params[:entry][:place_name]
     place = Place.find_by(name: place_name) || Place.create(name: place_name, user_id: session["user_id"])
 
@@ -44,6 +43,7 @@ class EntriesController < ApplicationController
   end
 
   def entry_params
-    params.require(:entry).permit(:body, :uploaded_image)
+    params.require(:entry).permit(:title, :description, :occurred_on, :body, :uploaded_image)
   end
+  
 end

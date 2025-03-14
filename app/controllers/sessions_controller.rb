@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password])
       session["user_id"] = @user["id"]
       flash["notice"] = "Hello."
-      redirect_to "/entries"
+      redirect_to "/places"
     else
       flash["notice"] = "Invalid email or password."
       redirect_to "/login"
