@@ -1,10 +1,18 @@
 <h1>Entries</h1>
 
-<% if @entries.any? %> <!-- Prevent errors if no entries exist -->
+<p><%= link_to "Create New Entry", "/entries/new", class: "btn btn-primary" %></p>
+
+<% if @entries.present? && @entries.any? %> <!-- Prevent nil errors -->
   <% @entries.each do |entry| %>
     <div class="card mb-3">
       <div class="card-body">
-        <p><strong><%= entry.user.email %></strong> at <%= entry.place.name %></p> <!-- Show user and place -->
+        <p><strong><%= entry.user.email %></strong> 
+          <% if entry.place.present? %>
+            at <%= entry.place.name %>
+          <% else %>
+            (No location)
+          <% end %>
+        </p>
         <p><%= entry.body %></p>
         <% if entry.uploaded_image.attached? %>
           <%= image_tag entry.uploaded_image, class: "img-fluid" %>
