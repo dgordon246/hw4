@@ -1,20 +1,18 @@
-<h1>Entries</h1>
+<p><%= link_to "Create New Entry", "/entries/new", { class: "btn btn-primary" } %></p> <!-- ✅ Class Hash Syntax -->
 
-<p><%= link_to "Create New Entry", "/entries/new", class: "btn btn-primary" %></p>
-
-<% if @entries.any? %>
+<% if @entries.length > 0 %>
   <% @entries.each do |entry| %>
     <div class="card mb-3">
       <div class="card-body">
-        <p><strong><%= entry.title %></strong></p>
-        <p><%= entry.description %></p>
-        <p>Occurred on: <%= entry.occurred_on %></p>
+        <h3><%= entry.title %></h3>
+        <p><%= entry.occurred_on %></p>
         <% if entry.uploaded_image.attached? %>
-          <%= image_tag entry.uploaded_image, class: "img-fluid" %>
+          <%= image_tag entry.uploaded_image, { class: "img-fluid" } %> 
         <% end %>
+        <p><%= entry.description %></p>
       </div>
     </div>
   <% end %>
 <% else %>
-  <p>No entries yet. Be the first to post!</p>
+  <p>No entries yet. Click "Create New Entry" to add one!</p>
 <% end %>

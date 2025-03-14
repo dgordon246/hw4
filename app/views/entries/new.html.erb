@@ -16,14 +16,14 @@
     <%= form.date_field :occurred_on, class: "form-control" %>
   </div>
 
+  <% @place = Place.find_by(id: session["place_id"]) %>
+  <% if @place %>
+    <p>Posting in: <strong><%= @place.name %></strong></p>
+  <% end %>
+
   <div class="mb-3">
     <%= form.label :uploaded_image, "Upload an image:" %>
     <%= form.file_field :uploaded_image, class: "form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :place_name, "Enter a Place:" %>
-    <%= form.text_field :place_name, class: "form-control" %>
   </div>
 
   <%= form.submit "Post", class: "btn btn-primary" %>

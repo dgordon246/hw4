@@ -1,10 +1,9 @@
 <h1>Places</h1>
 
-<% @places.each do |place| %>
-  <div class="card mb-3">
-    <div class="card-body">
-      <p><strong>Added by: <%= place.user.email %></strong></p> <!-- Show user -->
-      <p><%= place.name %></p>
-    </div>
-  </div>
-<% end %>
+<p><%= link_to "New Place", "/places/new", class: "btn btn-primary" %></p>
+
+<ul>
+  <% @places.each do |place| %>
+    <li><%= link_to place.name, place_path(place), class: "text-decoration-none" %></li> <!-- ✅ Makes name clickable -->
+  <% end %>
+</ul>

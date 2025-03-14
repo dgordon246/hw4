@@ -2,31 +2,36 @@ class EntriesController < ApplicationController
   before_action :authenticate_user
 
   def index
-    @entries = Entry.all.order(created_at: :desc) || []  # Ensure it's never nil
+    @entries = Entry.where(user_id: session["user_id"]).order(created_at: :desc) || []
   end
 
   def new
-    @entry = Entry.new
+    @place = Place.find_by(id: params[:place_id], user_id: session["user_id"])
+    if @place.nil?
+      flash["notice"] = "You must select a place first."
+      redirect_to "/places"
+    else
+      @entry = Entry.new
+    end
   end
 
   def create
-    if params[:entry].nil?
-      flash["notice"] = "Something went wrong. Entry data is missing."
-      redirect_to "/entries"
+    @place = Place.find_by(id: session["place_id"], user_id: session["user_id"])
+    
+    if @place.nil?
+      flash["notice"] = "You must select a place first."
+      redirect_to "/places"
       return
     end
 
-    place_name = params[:entry][:place_name]
-    place = Place.find_by(name: place_name) || Place.create(name: place_name, user_id: session["user_id"])
-
-    # Create the entry and assign the place
     @entry = Entry.new(entry_params)
     @entry.user_id = session["user_id"]
-    @entry.place_id = place.id
+    @entry.place_id = @place.id
 
     if @entry.save
+      session.delete("place_id")
       flash["notice"] = "Entry created!"
-      redirect_to "/entries"
+      redirect_to place_path(@entry.place)
     else
       flash["notice"] = "Something went wrong!"
       render "new"
@@ -43,7 +48,6 @@ class EntriesController < ApplicationController
   end
 
   def entry_params
-    params.require(:entry).permit(:title, :description, :occurred_on, :body, :uploaded_image)
+    params.require(:entry).permit(:title, :description, :occurred_on, :uploaded_image)
   end
-  
 end
