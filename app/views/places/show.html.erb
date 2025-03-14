@@ -3,7 +3,7 @@
 <p><%= link_to "New Post", new_place_entry_path(@place), { class: "btn btn-primary" } %></p>
 
 <div class="row">
-  <% if @entries.length > 0 %>
+  <% if @entries.count > 0 %>
     <% @entries.each do |entry| %>
       <div class="col-md-4">
         <div class="card mb-3">

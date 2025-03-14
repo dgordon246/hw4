@@ -1,8 +1,7 @@
 class ApplicationController < ActionController::Base
-  def authenticate_user
-    unless session["user_id"]
-      flash["notice"] = "You must log in first."
-      redirect_to "/login"
-    end
+  before_action :set_current_user
+
+  def set_current_user
+    @current_user = User.find_by(id: session[:user_id])
   end
 end

@@ -32,15 +32,6 @@ class EntriesController < ApplicationController
     end
   end
 
-  private
-
-  def authenticate_user
-    unless session["user_id"]
-      flash["notice"] = "You must log in first."
-      redirect_to "/login"
-    end
-  end
-
   def entry_params
     params.require(:entry).permit(:title, :description, :occurred_on, :uploaded_image)
   end
