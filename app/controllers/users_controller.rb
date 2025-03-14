@@ -1,17 +1,24 @@
 class UsersController < ApplicationController
   def new
+    @user = User.new
   end
 
   def create
-    @user = User.new
-    @user["email"] = params["email"]
-    @user["password"] = BCrypt::Password.create(params["password"])
+    @user = User.new(user_params)
+
     if @user.save
-      flash[:notice] = "Thanks for signing up! Now login."
-      redirect_to "/login"
+      session["user_id"] = @user["id"]
+      flash["notice"] = "Account created!"
+      redirect_to "/entries"
     else
-      flash[:notice] = "Error signing up."
-      render "new"
+      flash["notice"] = "Sign-up failed."
+      redirect_to "/users/new"
     end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:email, :password)
   end
 end

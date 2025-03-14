@@ -1,32 +1,29 @@
 class EntriesController < ApplicationController
-
-  before_action :require_login, only: [:new, :create]
-
-private
-
-def require_login
-  unless session["user_id"]
-    redirect_to "/login", alert: "You must be logged in to create an entry."
-  end
-end
-
-  
-  def new
-  end
+  before_action :authenticate_user
 
   def create
-    @user = User.find_by({ "id" => session["user_id"] })
-    if @user
-      @entry["title"] = params["title"]
-      @entry["description"] = params["description"]
-      @entry["occurred_on"] = params["occurred_on"]
-      @entry["place_id"] = params["place_id"]
-      @entry["user_id"] = @user["id"]
-    @entry.save
+    @entry = Entry.new(entry_params)
+    @entry.user_id = session["user_id"]
+
+    if @entry.save
+      flash["notice"] = "Entry created!"
     else
-      flash[:notice] = "Login first."
+      flash["notice"] = "Something went wrong!"
     end
-    redirect_to "/places/#{@entry["place_id"]}"
+
+    redirect_to "/entries"
   end
 
+  private
+
+  def authenticate_user
+    unless session["user_id"]
+      flash["notice"] = "You must log in first."
+      redirect_to "/login"
+    end
+  end
+
+  def entry_params
+    params.require(:entry).permit(:body, :uploaded_image)
+  end
 end

@@ -1,16 +1,15 @@
-<h1>New User Account</h1>
+<h1>Sign Up</h1>
 
-
-<form action="/users" method="post">
+<%= form_with url: "/users", local: true do |form| %>
   <div class="mb-3">
-    <label>Email</label>
-    <input type="email" name="email" class="form-control">
+    <%= form.label :email %>
+    <%= form.text_field :email, class: "form-control", name: "user[email]" %>
   </div>
 
   <div class="mb-3">
-    <label>Password</label>
-    <input type="password" name="password" class="form-control">
+    <%= form.label :password %>
+    <%= form.password_field :password, class: "form-control", name: "user[password]" %>
   </div>
 
-  <button class="btn btn-primary">Sign Up</button>
-</form>
+  <%= form.submit "Create Account", class: "btn btn-primary" %>
+<% end %>

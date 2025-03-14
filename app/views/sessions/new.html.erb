@@ -1,15 +1,15 @@
 <h1>Login</h1>
 
-<form action="/sessions" method="post">
+<%= form_with url: "/sessions", local: true do |form| %>
   <div class="mb-3">
-    <label>Email</label>
-    <input type="text" name="email" class="form-control">
+    <%= form.label :email %>
+    <%= form.text_field :email, class: "form-control" %>
   </div>
 
   <div class="mb-3">
-    <label>Password</label>
-    <input type="password" name="password" class="form-control">
+    <%= form.label :password %>
+    <%= form.password_field :password, class: "form-control" %>
   </div>
 
-  <button class="btn btn-primary">Login</button>
-</form>
+  <%= form.submit "Log In", class: "btn btn-primary" %>
+<% end %>
