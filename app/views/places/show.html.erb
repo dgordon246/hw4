@@ -10,8 +10,8 @@
           <div class="card-body">
             <h3><%= entry.title %></h3>
             <p><%= entry.occurred_on %></p>
-            <% if entry.uploaded_image.attached? %>
-              <%= image_tag entry.uploaded_image, { class: "img-fluid" } %>
+            <% if entry["image"].attached? %>
+              <%= image_tag url_for(entry["image"]), class: "img-fluid", alt: "Image for #{entry["title"]}" %>
             <% end %>
             <p><%= entry.description %></p>
           </div>
