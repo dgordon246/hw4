@@ -4,8 +4,8 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new
-    @user["email"] = params[:user][:email]  # FIXED: Correctly access email from params
-    @user["password"] = BCrypt::Password.create(params[:user][:password])  # FIXED: Encrypt password before saving
+    @user["email"] = params[:user][:email] 
+    @user["password"] = BCrypt::Password.create(params[:user][:password]) 
 
     if @user.save
       flash[:notice] = "Thanks for signing up. Now login."

@@ -19,9 +19,8 @@ class EntriesController < ApplicationController
     end
 
     @entry = @place.entries.new(entry_params)
-    @entry["user_id"] = current_user["id"]  # ✅ Ensure entry is assigned to the logged-in user
+    @entry["user_id"] = current_user["id"]
 
-    # ✅ Attach image separately
     if params["entry"]["uploaded_image"].present?
       @entry.uploaded_image.attach(params["entry"]["uploaded_image"])
     end
@@ -29,7 +28,7 @@ class EntriesController < ApplicationController
     if @entry.save
       flash["notice"] = "Entry added successfully."
       redirect_to place_path(@place["id"])
-      return  # ✅ Prevents double render error
+      return
     else
       flash["alert"] = "Error creating entry."
       render :new
