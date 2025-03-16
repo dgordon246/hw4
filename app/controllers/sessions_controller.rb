@@ -11,11 +11,11 @@ class SessionsController < ApplicationController
         flash["notice"] = "Hello."
         redirect_to "/places"
       else
-        flash["notice"] = "Invalid email or password."
+        flash["notice"] = "Invalid password."
         redirect_to "/login"
       end
     else
-      flash["notice"] = "Invalid email or password."
+      flash["notice"] = "Invalid email"
       redirect_to "/login"
     end
   end

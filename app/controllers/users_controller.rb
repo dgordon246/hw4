@@ -6,12 +6,8 @@ class UsersController < ApplicationController
     @user = User.new
     @user["email"] = params["email"]
     @user["password"] = BCrypt::Password.create(params["password"])
-    
-    if @user.save
-      flash[:notice] = "Thanks for signing up. Now login."
-      redirect_to "/login"
-    else
-      render "new"
-    end
+    @user.save
+    flash[:notice] = "Thanks for signing up. Now login."
+    redirect_to "/login"
   end
 end

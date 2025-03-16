@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
 
   get("/login", { :controller => "sessions", :action => "new" })
-  delete("/logout", { :controller => "sessions", :action => "destroy" })
+  get("/logout", { :controller => "sessions", :action => "destroy" })
   
-  root "places#index"
+  get("/", { :controller => "places", :action => "index" })
 end

@@ -1,5 +1,4 @@
 class PlacesController < ApplicationController
-  before_action :authenticate_user
 
   def index
     @places = Place.where(user_id: session["user_id"])
