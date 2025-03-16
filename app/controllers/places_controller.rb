@@ -2,8 +2,15 @@ class PlacesController < ApplicationController
   before_action :authenticate_user, only: [:new, :create, :show]
 
   def index
-    @places = Place.where(user_id: session["user_id"])
+    if session["user_id"].nil?
+      flash["alert"] = "You must be logged in to view places."
+      redirect_to "/login"
+      return
+    end
+  
+    @places = Place.where("user_id" => session["user_id"])
   end
+  
 
   def show
     @place = Place.find_by({ "id" => params["id"], "user_id" => session["user_id"] })

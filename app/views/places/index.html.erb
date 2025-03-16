@@ -1,11 +1,13 @@
-<h1>Places</h1>
+<% if session["user_id"] %> 
+  <h1>Places</h1>
 
-<% if session["user_id"] %>
   <p><%= link_to "New Place", "/places/new", class: "btn btn-primary" %></p>
-<% end %>
 
-<ul>
-  <% @places.each do |place| %>
-    <li><%= link_to place.name, place_path(place), { class: "text-decoration-none" } %></li>
-  <% end %>
-</ul>
+  <ul>
+    <% @places.each do |place| %>
+      <li><%= link_to place.name, place_path(place), { class: "text-decoration-none" } %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You must be logged in to view places.</p>
+<% end %>
