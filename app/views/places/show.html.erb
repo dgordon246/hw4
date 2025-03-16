@@ -10,8 +10,10 @@
           <div class="card-body">
             <h3><%= entry.title %></h3>
             <p><%= entry.occurred_on %></p>
-            <% if entry["image"].attached? %>
-              <%= image_tag url_for(entry["image"]), class: "img-fluid", alt: "Image for #{entry["title"]}" %>
+            <% if entry.respond_to?(:uploaded_image) && entry.uploaded_image.attached? %>  <!-- ✅ Prevents nil errors -->
+              <%= image_tag entry.uploaded_image, class: "img-fluid", alt: "Image for #{entry["title"]}" %>
+            <% else %>
+              <p>No image available.</p>
             <% end %>
             <p><%= entry.description %></p>
           </div>

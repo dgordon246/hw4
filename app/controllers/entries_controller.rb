@@ -1,30 +1,37 @@
 class EntriesController < ApplicationController
   def new
-    if current_user.nil?
-      flash["alert"] = "You must be logged in to create an entry."
-      redirect_to "/login"
+    @place = Place.find_by({ "id" => params["place_id"] })
+    if @place.nil?
+      flash["alert"] = "Place not found."
+      redirect_to "/places"
       return
     end
 
-    @place = Place.find_by({ "id" => params["place_id"] })
     @entry = Entry.new
   end
 
   def create
-    if current_user.nil?  
-      flash["alert"] = "You must be logged in to create an entry."
-      redirect_to "/login"
+    @place = Place.find_by({ "id" => params["place_id"] })
+    if @place.nil?
+      flash["alert"] = "Place not found."
+      redirect_to "/places"
       return
     end
 
-    @place = Place.find_by({ "id" => params["place_id"] })
     @entry = @place.entries.new(entry_params)
-    @entry["user_id"] = current_user["id"]
+    @entry["user_id"] = current_user["id"]  # ✅ Ensure entry is assigned to the logged-in user
+
+    # ✅ Attach image separately
+    if params["entry"]["uploaded_image"].present?
+      @entry.uploaded_image.attach(params["entry"]["uploaded_image"])
+    end
 
     if @entry.save
       flash["notice"] = "Entry added successfully."
-      redirect_to place_path(@place)
+      redirect_to place_path(@place["id"])
+      return  # ✅ Prevents double render error
     else
+      flash["alert"] = "Error creating entry."
       render :new
     end
   end
@@ -32,6 +39,6 @@ class EntriesController < ApplicationController
   private
 
   def entry_params
-    params.require("entry").permit("title", "description", "occurred_on", "image")
+    params.require("entry").permit("title", "description", "occurred_on", :uploaded_image)  # ✅ Allow uploaded images
   end
 end

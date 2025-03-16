@@ -1,4 +1,5 @@
 class PlacesController < ApplicationController
+  before_action :authenticate_user, only: [:new, :create, :show]
 
   def index
     @places = Place.where(user_id: session["user_id"])
@@ -10,8 +11,14 @@ class PlacesController < ApplicationController
   end
 
   def new
+    if session["user_id"].nil?
+      flash["alert"] = "You must be logged in to add a place."
+      redirect_to "/login"
+      return
+    end
+  
     @place = Place.new
-  end
+  end  
 
   def create
     @place = Place.new
