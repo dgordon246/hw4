@@ -6,24 +6,16 @@ class SessionsController < ApplicationController
     @user = User.find_by({ "email" => params["email"] }) 
 
     if @user != nil
-      begin
-        if BCrypt::Password.new(@user["password"]) == params["password"]
-          session["user_id"] = @user["id"]
-          flash["notice"] = "Hello."
-          redirect_to "/places"
-        else
-          flash["notice"] = "Nope."
-          redirect_to "/login"
-        end
-      rescue BCrypt::Errors::InvalidHash
-        @user["password"] = BCrypt::Password.create(params["password"])
-        @user.save
+      if BCrypt::Password.new(@user["password"]) == params["password"].to_s
         session["user_id"] = @user["id"]
-        flash["notice"] = "Password updated. You are now logged in."
+        flash["notice"] = "Hello."
         redirect_to "/places"
+      else
+        flash["notice"] = "Invalid email or password."
+        redirect_to "/login"
       end
     else
-      flash["notice"] = "Nope."
+      flash["notice"] = "Invalid email or password."
       redirect_to "/login"
     end
   end
